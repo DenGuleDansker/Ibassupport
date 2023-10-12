@@ -1,0 +1,43 @@
+﻿@page
+@model MyApp.Namespace.SupportModel
+
+<style>
+    .form-column {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: block;
+    }
+</style>
+
+<form method="post">
+
+<div class="form-row">
+    <div class="form-column">
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="Category" asp-for="issue.category" />
+    </div>
+    <div class="form-column">
+        <label for="beskrivelse">Beskrivelse:</label>
+        <input type="text" id="name" name="beskrivelse" asp-for="issue.Beskrivelse" />
+    </div>
+    <div class="form-column">
+        <label for="dato">Dato:</label>
+        <input type="datetime-local" id="dato" name="DatoTid" asp-for="issue.DatoTid" />
+    </div>
+    <div class="form-column">
+        <label for="telefon">Telefonnummer:</label>
+        <input type="number" id="telefon" name="Telefon" asp-for="issue.Telefon" />
+    </div>
+
+    <div class="form-column">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </div>
+</div>
+
+</form>
+
+@{
+
+}
