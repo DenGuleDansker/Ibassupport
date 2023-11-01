@@ -28,7 +28,7 @@ namespace MyApp.Namespace
 
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid || issue == null)
+            if (!ModelState.IsValid || Henvendelse == null)
             {
                 return Page();
             }
@@ -38,12 +38,15 @@ namespace MyApp.Namespace
 
             try
             {
-                issue.HenvendelseID = Guid.NewGuid().ToString();
-                PartitionKey categoryKey = new(issue.category);
-                ItemResponse<Issue> response = await container.UpsertItemAsync(issue, categoryKey);
+                Henvendelse.HenvendelseID = Guid.NewGuid().ToString();
+                PartitionKey categoryKey = new(Henvendelse.category);
+                ItemResponse<Issue> response = await container.UpsertItemAsync(Henvendelse, categoryKey);
+                //Console.WriteLine("Virker ikke");
+
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Virker");
                 return BadRequest();
             }
             return RedirectToPage("./Index");
@@ -70,14 +73,17 @@ namespace MyApp.Namespace
 
             public string? Beskrivelse { get; set; }
 
-            [JsonPropertyName("category")] // Her angiver vi et alternativt navn for egenskaben
             public string? category { get; set; }
 
-            [JsonPropertyName("DatoTid")] // Her angiver vi et alternativt navn for egenskaben
             public DateTime? DatoTid { get; set; }
         }
 
         [BindProperty]
-        public Issue? issue { get; set; }
+        public Issue? Henvendelse { get; set; }
+
+        [BindProperty]
+        public Bruger? KontaktPerson { get; set; }
+
+        
     }
 }
