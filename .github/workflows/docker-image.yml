@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
 env:
-  IMAGENAME: ${{ secrets.REGISTRY_LOGIN_SERVER}}/ibasemployeeservice:latest
+  IMAGENAME: ${{ secrets.REGISTRY_LOGIN_SERVER}}/ibassupportservice:latest
 
 jobs:
 
