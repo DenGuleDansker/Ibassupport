@@ -24,12 +24,31 @@ namespace MyApp.Namespace
             _dbclient = new CosmosClientBuilder(connectionString)
             .WithSerializerOptions(serializerOptions)
             .Build();
+
+
+            Henvendelse.Bruger = KontaktPerson;
+
+            
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
+
+
+            Henvendelse.HenvendelseID = Guid.NewGuid().ToString();
+            KontaktPerson.BrugerID = Guid.NewGuid().ToString();
+            Console.WriteLine(Henvendelse.HenvendelseID + " - " + KontaktPerson.BrugerID);
+
             if (!ModelState.IsValid || Henvendelse == null)
             {
+                Console.WriteLine("Yo, this no works");
+                foreach(var state in ModelState)
+            {
+                if (state.Value.Errors.Any())
+                {
+                    Console.WriteLine($"Key: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
+            }
                 return Page();
             }
 
@@ -38,7 +57,7 @@ namespace MyApp.Namespace
 
             try
             {
-                Henvendelse.HenvendelseID = Guid.NewGuid().ToString();
+             
                 PartitionKey categoryKey = new(Henvendelse.category);
                 ItemResponse<Issue> response = await container.UpsertItemAsync(Henvendelse, categoryKey);
                 //Console.WriteLine("Virker ikke");
@@ -46,16 +65,18 @@ namespace MyApp.Namespace
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Virker");
+                Console.WriteLine(ex.Message);
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return BadRequest();
             }
+
             return RedirectToPage("./Index");
         }
 
         public class Bruger
         {
-            [JsonPropertyName("BrugerID")] // Her angiver vi et alternativt navn for egenskaben
-            public string? BrugerID { get; set; }
+            [JsonPropertyName("Id")] // Her angiver vi et alternativt navn for egenskaben
+            public string BrugerID { get; set; }
 
             public string? Navn { get; set; }
 
@@ -64,8 +85,8 @@ namespace MyApp.Namespace
 
         public class Issue
         {
-            [JsonPropertyName("HenvendelseID")] // Her angiver vi et alternativt navn for egenskaben
-            public string? HenvendelseID { get; set; }
+            [JsonPropertyName("Id")] // Her angiver vi et alternativt navn for egenskaben
+            public string HenvendelseID { get; set; }
 
             public Bruger? Bruger { get; set; }
 
@@ -75,14 +96,27 @@ namespace MyApp.Namespace
 
             public string? category { get; set; }
 
-            public DateTime? DatoTid { get; set; }
+            public DateTime? DatoTid { get; set; } = DateTime.Now;
         }
 
         [BindProperty]
-        public Issue? Henvendelse { get; set; }
+        public Issue? Henvendelse { get; set; } = new Issue
+        {
+            HenvendelseID = "",
+            Beskrivelse = "",
+            Telefon = "",
+            category = ""
+           
+         
+        };
 
         [BindProperty]
-        public Bruger? KontaktPerson { get; set; }
+        public Bruger? KontaktPerson { get; set; } = new Bruger
+        {
+            BrugerID = "",
+            Email = "",
+            Navn = ""
+        };
 
         
     }

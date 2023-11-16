@@ -9,56 +9,49 @@
     label {
         display: block;
     }
+
     p {
-      font-weight: bold;
+        font-weight: bold;
     }
 </style>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var inputElement = document.getElementById("DatoTid");
-        var now = new Date();
-        var formattedNow = now.toISOString().slice(0, 16);  // Konverter til 'yyyy-MM-ddTHH:mm' format
-        inputElement.value = formattedNow;
-    });
-</script>
 
 <form method="post">
-<p>Kontaktoplysninger</p>
-<div class="form-row">
-    <div class="form-column">
-        <label for="category">Navn:</label>
-        <input type="text" id="Navn" name="Category" asp-for="KontaktPerson.Navn" />
-    </div>
-    <div class="form-column">
-        <label for="beskrivelse">Email:</label>
-        <input type="text" id="Email" name="beskrivelse" asp-for="KontaktPerson.Email" />
+    <p>Kontaktoplysninger</p>
+    <div class="form-row">
+        <div class="form-column">
+            <label for="Navn">Navn:</label>
+            <input type="text" id="Navn" name="Category" asp-for="KontaktPerson.Navn" />
+        </div>
+        <div class="form-column">
+            <label for="Email">Email:</label>
+            <input type="text" id="Email" name="beskrivelse" asp-for="KontaktPerson.Email" />
+        </div>
     </div>
     <p>Henvendelse</p>
     <div class="form-row">
-    <div class="form-column">
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="Category" asp-for="Henvendelse.category" />
+        <div class="form-column">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="Category" asp-for="Henvendelse.category" />
+        </div>
+        <div class="form-column">
+            <label for="Beskrivelse">Beskrivelse:</label>
+            <input type="text" id="Beskrivelse" name="beskrivelse" asp-for="Henvendelse.Beskrivelse" />
+        </div>
+        <div class="form-column">
+            <label for="DatoTid">Dato:</label>
+            <input type="date" id="DatoTid" name="DatoTid" asp-for="Henvendelse.DatoTid" />
+        </div>
+        <div class="form-column">
+            <label for="Telefon">Telefonnummer:</label>
+            <input type="number" id="Telefon" name="Telefon" asp-for="Henvendelse.Telefon" />
+        </div>
+        <div class="form-column">
+            <button type="submit" class="btn btn-success">Send</button>
+        </div>
     </div>
-    <div class="form-column">
-        <label for="beskrivelse">Beskrivelse:</label>
-        <input type="text" id="Beskrivelse" name="beskrivelse" asp-for="Henvendelse.Beskrivelse" />
-    </div>
-    <div class="form-column">
-        <label for="dato">Dato:</label>
-        <input type="datetime-local" id="DatoTid" name="DatoTid" asp-for="Henvendelse.DatoTid" />
-    </div>
-    <div class="form-column">
-        <label for="telefon">Telefonnummer:</label>
-        <input type="number" id="Telefon" name="Telefon" asp-for="Henvendelse.Telefon" />
-    </div>
-
-    <div class="form-column">
-        <button type="submit" class="btn btn-success">Send</button>
-    </div>
-</div>
-
 </form>
+
 
 @{
 
